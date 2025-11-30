@@ -74,5 +74,5 @@ def process(folder):
             print(f"Processed: {filename} → {output_name}")
 
 
-target = "vendor/include/GLFW"
+target = "vendor/include/STB_IMAGE"
 process(target)

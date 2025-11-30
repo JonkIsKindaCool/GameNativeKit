@@ -1,7 +1,7 @@
 import re
 
-INPUT_FILE = "vendor/include/GLFW/glfw3.txt"
-OUTPUT_FILE = "GLFW.hx"
+INPUT_FILE = "vendor/include/STB_IMAGE/stb_image.txt"
+OUTPUT_FILE = "StbImage.hx"
 
 def sanitize_name(name):
     # Remove GLFW_

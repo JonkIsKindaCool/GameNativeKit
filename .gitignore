@@ -1,1 +1,3 @@
 test/bin/cpp/*
+make_macros.py
+extract.py

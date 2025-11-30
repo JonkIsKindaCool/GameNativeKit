@@ -1,0 +1,6 @@
+<xml>
+    <files id="haxe">
+        <compilerflag value="-I${haxelib:GameNativeKit}/vendor/include/STB_IMAGE"/>
+        <compilerflag value="-I${haxelib:GameNativeKit}"/>
+    </files>
+</xml>
