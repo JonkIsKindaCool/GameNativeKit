@@ -1,7 +1,7 @@
 == Macros ==
 _glfw3_native_h_ 
 
-== Funciones ==
+== Functions ==
 char* glfwGetWin32Adapter(GLFWmonitor* monitor)
 char* glfwGetWin32Monitor(GLFWmonitor* monitor)
 HWND glfwGetWin32Window(GLFWwindow* window)

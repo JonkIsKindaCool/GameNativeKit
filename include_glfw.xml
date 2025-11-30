@@ -1,0 +1,65 @@
+<xml>
+
+	<!-- Paths de GLFW según OS -->
+	<set name="GLFW_LIB_PATH" value="${haxelib:GameNativeKit}/vendor/lib/GLFW/x64"
+		if="windows HXCPP_M64" />
+	<set name="GLFW_LIB_PATH" value="${haxelib:GameNativeKit}/vendor/lib/GLFW/Win32" if="windows"
+		unless="HXCPP_M64" />
+	<set name="GLFW_LIB_PATH" value="${haxelib:GameNativeKit}/vendor/lib/GLFW/macOS" if="macos" />
+	<set name="GLFW_LIB_PATH" value="${haxelib:GameNativeKit}/vendor/lib/GLFW/linux" if="linux" />
+
+	<files id="haxe">
+		<compilerflag value="-I${haxelib:GameNativeKit}/vendor/include/GLFW" />
+		<compilerflag value="-I${haxelib:GameNativeKit}" />
+		<compilerflag value="-DGLFW_INCLUDE_NONE" />
+	</files>
+
+	<files id="__main__">
+		<compilerflag value="-I${haxelib:GameNativeKit}" />
+		<compilerflag value="-I${haxelib:GameNativeKit}/vendor/include/GLFW" />
+	</files>
+
+	<target id="haxe">
+
+		<section if="linux">
+			<lib name="${GLFW_LIB_PATH}/libglfw3.a" />
+			<lib name="-lGL" />
+			<lib name="-lm" />
+			<lib name="-lXrandr" />
+			<lib name="-lXi" />
+			<lib name="-lX11" />
+			<lib name="-lXxf86vm" />
+			<lib name="-lpthread" />
+		</section>
+
+		<section if="macos">
+			<lib name="${GLFW_LIB_PATH}/libglfw3.a" />
+			<vflag name="-framework" value="Cocoa" />
+			<vflag name="-framework" value="CoreVideo" />
+			<vflag name="-framework" value="IOKit" />
+		</section>
+
+		<section if="windows">
+
+			<flag value="-libpath:${GLFW_LIB_PATH}" />
+
+			<section unless="GLFW_STATIC">
+				<compilerflag value="-DGLFW_DLL" />
+				<lib name="glfw3dll.lib" />
+			</section>
+
+			<section if="GLFW_STATIC">
+				<lib name="glfw3.lib" />
+				<lib name="gdi32.lib" />
+				<lib name="shell32.lib" />
+				<lib name="user32.lib" />
+				<lib name="kernel32.lib" />
+			</section>
+
+		</section>
+
+	</target>
+
+	<copyFile name="glfw3.dll" from="${GLFW_LIB_PATH}" if="windows" unless="GLFW_STATIC" />
+
+</xml>

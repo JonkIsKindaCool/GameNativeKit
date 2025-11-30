@@ -1,86 +1,78 @@
 import os
 import re
 
-# Regex para capturar macros (#define ...)
 macro_regex = re.compile(r'^\s*#\s*define\s+(\w+)(.*)$')
 
-# Regex para funciones: tipo nombre(args);
 function_regex = re.compile(
-    r'''([A-Za-z_]\w*(?:\s*\*+)?)   # tipo de retorno
-        \s+([A-Za-z_]\w*)          # nombre de la función
-        \s*\(([^)]*)\)\s*;         # argumentos
+    r'''([A-Za-z_]\w*(?:\s*\*+)?) 
+        \s+([A-Za-z_]\w*)         
+        \s*\(([^)]*)\)\s*;        
     ''', re.VERBOSE
 )
 
-# Regex para variables globales (simples)
 variable_regex = re.compile(
-    r'''([A-Za-z_]\w*(?:\s*\*+)?)   # tipo
-        \s+([A-Za-z_]\w*)          # nombre
-        \s*(=\s*[^;]+)?            # posible valor
-        \s*;                       # ;
+    r'''([A-Za-z_]\w*(?:\s*\*+)?)  
+        \s+([A-Za-z_]\w*)         
+        \s*(=\s*[^;]+)?            
+        \s*;                      
     ''', re.VERBOSE
 )
 
-def extraer_informacion_header(ruta_header):
+def extract_header_info(header_path):
     macros = []
-    funciones = []
+    functions = []
     variables = []
 
-    with open(ruta_header, "r", encoding="utf-8", errors="ignore") as f:
-        for linea in f:
-            # Buscar macros
-            m = macro_regex.match(linea)
+    with open(header_path, "r", encoding="utf-8", errors="ignore") as f:
+        for line in f:
+            m = macro_regex.match(line)
             if m:
                 macros.append(f"{m.group(1)} {m.group(2).strip()}")
                 continue
 
-            # Buscar funciones
-            fmatch = function_regex.search(linea)
+            fmatch = function_regex.search(line)
             if fmatch:
-                tipo = fmatch.group(1)
-                nombre = fmatch.group(2)
+                type_ = fmatch.group(1)
+                name = fmatch.group(2)
                 args = fmatch.group(3)
-                funciones.append(f"{tipo} {nombre}({args})")
+                functions.append(f"{type_} {name}({args})")
                 continue
 
-            # Buscar variables simples
-            vmatch = variable_regex.search(linea)
+            vmatch = variable_regex.search(line)
             if vmatch:
-                tipo = vmatch.group(1)
-                nombre = vmatch.group(2)
-                valor = vmatch.group(3) if vmatch.group(3) else ""
-                variables.append(f"{tipo} {nombre}{valor}")
+                type_ = vmatch.group(1)
+                name = vmatch.group(2)
+                value = vmatch.group(3) if vmatch.group(3) else ""
+                variables.append(f"{type_} {name}{value}")
                 continue
 
-    return macros, funciones, variables
+    return macros, functions, variables
 
 
-def procesar_carpeta(carpeta):
-    for archivo in os.listdir(carpeta):
-        if archivo.endswith(".h") or archivo.endswith(".hpp"):
-            ruta = os.path.join(carpeta, archivo)
-            macros, funciones, variables = extraer_informacion_header(ruta)
+def process(folder):
+    for filename in os.listdir(folder):
+        if filename.endswith(".h") or filename.endswith(".hpp"):
+            path = os.path.join(folder, filename)
+            macros, functions, variables = extract_header_info(path)
 
-            salida = os.path.splitext(archivo)[0] + ".txt"
-            ruta_salida = os.path.join(carpeta, salida)
+            output_name = os.path.splitext(filename)[0] + ".txt"
+            output_path = os.path.join(folder, output_name)
 
-            with open(ruta_salida, "w", encoding="utf-8") as out:
-                out.write(f"== Macros ==\n")
+            with open(output_path, "w", encoding="utf-8") as out:
+                out.write("== Macros ==\n")
                 for m in macros:
                     out.write(m + "\n")
 
-                out.write(f"\n== Funciones ==\n")
-                for f in funciones:
-                    out.write(f + "\n")
+                out.write("\n== Functions ==\n")
+                for func in functions:
+                    out.write(func + "\n")
 
-                out.write(f"\n== Variables ==\n")
+                out.write("\n== Variables ==\n")
                 for v in variables:
                     out.write(v + "\n")
 
-            print(f"Procesado: {archivo} → {salida}")
+            print(f"Processed: {filename} → {output_name}")
 
 
-# ---- EDITA ESTA RUTA ----
-carpeta_headers = "include/GLFW"
-
-procesar_carpeta(carpeta_headers)
+target = "vendor/include/GLFW"
+process(target)

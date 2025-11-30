@@ -348,7 +348,7 @@ GLFW_DONT_CARE -1
 GLAPIENTRY APIENTRY
 GLFW_GLAPIENTRY_DEFINED 
 
-== Funciones ==
+== Functions ==
 void function_name(GLFWwindow* window)
 void function_name(GLFWwindow* window, double xpos, double ypos)
 int glfwInit(void)

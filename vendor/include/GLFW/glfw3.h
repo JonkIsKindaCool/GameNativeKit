@@ -1617,7 +1617,7 @@ typedef void (* GLFWwindowposfun)(GLFWwindow* window, int xpos, int ypos);
  *  This is the function pointer type for window size callbacks.  A window size
  *  callback function has the following signature:
  *  @code
- *  void callback_name(GLFWwindow* window, int width, int height)
+ *  void callback_name(GLFWmonitor* window, int width, int height)
  *  @endcode
  *
  *  @param[in] window The window that was resized.

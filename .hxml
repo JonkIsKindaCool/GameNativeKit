@@ -1,2 +1,6 @@
+--library gamenativekit
+
+--cwd test
 --class-path src
+--main Main
 --cpp bin/cpp
