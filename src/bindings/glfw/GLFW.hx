@@ -1,5 +1,6 @@
 package bindings.glfw;
 
+import bindings.glad.Glad.GladLoadProc;
 import cpp.Star;
 import cpp.abi.Abi;
 import cpp.Function;
@@ -1075,7 +1076,7 @@ extern class GLFW {
 	public static function extensionSupported(extension:cpp.ConstCharStar):Int;
 
 	@:native("glfwGetProcAddress")
-	public static function getProcAddress(procname:cpp.ConstCharStar):Void->Void;
+	public static function getProcAddress(procname:cpp.ConstCharStar):GladLoadProc;
 
 	// VULKAN, XD
 	@:native("glfwVulkanSupported")

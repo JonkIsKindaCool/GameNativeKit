@@ -1,0 +1,11 @@
+<xml>
+    <files id="haxe">
+        <compilerflag value="-I${haxelib:GameNativeKit}/vendor/include/GLM/detail"/>
+        <compilerflag value="-I${haxelib:GameNativeKit}/vendor/include/GLM/ext"/>
+        <compilerflag value="-I${haxelib:GameNativeKit}/vendor/include/GLM/gtc"/>
+        <compilerflag value="-I${haxelib:GameNativeKit}/vendor/include/GLM/gtx"/>
+        <compilerflag value="-I${haxelib:GameNativeKit}/vendor/include/GLM/simd"/>
+        <compilerflag value="-I${haxelib:GameNativeKit}/vendor/include/GLM"/>
+        <compilerflag value="-I${haxelib:GameNativeKit}"/>
+    </files>
+</xml>

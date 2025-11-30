@@ -1,0 +1,7 @@
+<xml>
+    <files id="haxe">
+        <compilerflag value="-I${haxelib:GameNativeKit}/vendor/include"/>
+        <compilerflag value="-I${haxelib:GameNativeKit}"/>
+        <file name="${haxelib:GameNativeKit}/vendor/src/glad.c" />
+    </files>
+</xml>
