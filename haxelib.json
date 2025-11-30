@@ -1,0 +1,13 @@
+{
+    "name": "GameNativeKit",
+    "url" : "https://github.com/swordcube/hxsdl",
+    "license": "MIT",
+    "tags": ["haxe", "game", "cpp", "binds", "bindings", "native"],
+    "description": "A bunch of bindings for cpp game libraries.",
+    "version": "0.4.1",
+    "classPath": "src/",
+    "contributors": ["jonkiskindacool"],
+    "dependencies": {
+        "hxcpp": ""
+    }
+}
