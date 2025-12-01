@@ -1,0 +1,39 @@
+<xml>
+    <set name="SDL3_LIB_PATH" value="${haxelib:GameNativeKit}/vendor/lib/SDL3/x64"
+        if="windows HXCPP_M64" />
+    <set name="SDL3_LIB_PATH" value="${haxelib:GameNativeKit}/vendor/lib/SDL3/x86" if="windows"
+        unless="HXCPP_M64" />
+    <set name="SDL3_LIB_PATH" value="${haxelib:GameNativeKit}/vendor/lib/SDL3/macOS" if="macos" />
+    <set name="SDL3_LIB_PATH" value="${haxelib:GameNativeKit}/vendor/lib/SDL3/linux" if="linux" />
+
+    <files id="haxe">
+        <compilerflag value="-I${haxelib:GameNativeKit}/vendor/include/SDL3" />
+        <compilerflag value="-I${haxelib:GameNativeKit}" />
+    </files>
+
+    <files id="__main__">
+        <compilerflag value="-I${haxelib:GameNativeKit}/vendor/include/SDL3" />
+        <compilerflag value="-I${haxelib:GameNativeKit}" />
+    </files>
+
+    <section if="windows">
+        <copyFile name="SDL3.dll" from="${SDL3_LIB_PATH}" toolid="exe" overwrite="true" />
+    </section>
+
+    <target id="haxe">
+
+        <section if="windows" unless="mingw">
+            <lib name="${SDL3_LIB_PATH}/SDL3.lib" />
+        </section>
+
+		<section if="linux || android">
+			<lib name="-lSDL3" />
+		</section>
+
+        <section if="macos">
+            <lib name="${SDL3_LIB_PATH}/libSDL3.a" />
+        </section>
+
+    </target>
+
+</xml>

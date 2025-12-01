@@ -22,28 +22,28 @@ import cpp.Int32;
 @:include("vendor/include/GLFW/glfw3.h")
 @:native("GLFWwindow")
 @:structAccess
-extern class Native_GLFW_Window {}
+extern class Raw_GLFW_Window {}
 
-typedef GLFW_Window = Pointer<Native_GLFW_Window>;
+typedef GLFW_Window = Pointer<Raw_GLFW_Window>;
 
 @:include("vendor/include/GLFW/glfw3.h")
 @:native("GLFWmonitor")
 @:structAccess
-extern class Native_GLFW_Monitor {}
+extern class Raw_GLFW_Monitor {}
 
-typedef GLFW_Monitor = Pointer<Native_GLFW_Monitor>;
+typedef GLFW_Monitor = Pointer<Raw_GLFW_Monitor>;
 
 @:include("vendor/include/GLFW/glfw3.h")
 @:native("GLFWcursor")
 @:structAccess
-extern class Native_GLFW_Cursor {}
+extern class Raw_GLFW_Cursor {}
 
-typedef GLFW_Cursor = Pointer<Native_GLFW_Cursor>;
+typedef GLFW_Cursor = Pointer<Raw_GLFW_Cursor>;
 
 @:include("vendor/include/GLFW/glfw3.h")
 @:native("GLFWvidmode")
 @:structAccess
-extern class Native_GLFW_Vidmode {
+extern class Raw_GLFW_Vidmode {
 	@:native("width")
 	public var width:Int32;
 	@:native("height")
@@ -58,12 +58,12 @@ extern class Native_GLFW_Vidmode {
 	public var refreshRate:Int32;
 }
 
-typedef GLFW_Vidmode = Pointer<Native_GLFW_Vidmode>;
+typedef GLFW_Vidmode = Pointer<Raw_GLFW_Vidmode>;
 
 @:include("vendor/include/GLFW/glfw3.h")
 @:native("GLFWgammaramp")
 @:structAccess
-extern class Native_GLFW_Gammaramp {
+extern class Raw_GLFW_Gammaramp {
 	@:native("red")
 	public var red:Pointer<UInt16>;
 	@:native("green")
@@ -74,12 +74,12 @@ extern class Native_GLFW_Gammaramp {
 	public var size:UInt32;
 }
 
-typedef GLFW_Gammaramp = Pointer<Native_GLFW_Gammaramp>;
+typedef GLFW_Gammaramp = Pointer<Raw_GLFW_Gammaramp>;
 
 @:include("vendor/include/GLFW/glfw3.h")
 @:native("GLFWimage")
 @:structAccess
-extern class Native_GLFW_Image {
+extern class Raw_GLFW_Image {
 	@:native("width")
 	public var width:Int32;
 	@:native("height")
@@ -88,24 +88,24 @@ extern class Native_GLFW_Image {
 	public var pixels:Pointer<UInt8>;
 }
 
-typedef GLFW_Image = ConstPointer<Native_GLFW_Image>;
+typedef GLFW_Image = ConstPointer<Raw_GLFW_Image>;
 
 @:include("vendor/include/GLFW/glfw3.h")
 @:native("GLFWgamepadstate")
 @:structAccess
-extern class Native_GLFW_GamepadState {
+extern class Raw_GLFW_GamepadState {
 	@:native("buttons")
 	public var buttons:RawPointer<UInt8>;
 	@:native("axes")
 	public var axes:RawPointer<Float32>;
 }
 
-typedef GLFW_GamepadState = Pointer<Native_GLFW_GamepadState>;
+typedef GLFW_GamepadState = Pointer<Raw_GLFW_GamepadState>;
 
 @:include("vendor/include/GLFW/glfw3.h")
 @:native("GLFWallocator")
 @:structAccess
-extern class Native_GLFW_Allocator {
+extern class Raw_GLFW_Allocator {
 	@:native("allocate")
 	public var allocate:GLFW_Allocatefun;
 
@@ -119,7 +119,7 @@ extern class Native_GLFW_Allocator {
 	public var user:Pointer<cpp.Void>;
 }
 
-typedef GLFW_Allocator = ConstPointer<Native_GLFW_Allocator>;
+typedef GLFW_Allocator = ConstPointer<Raw_GLFW_Allocator>;
 typedef GLFW_Allocatefun = (size:SizeT, user:Pointer<cpp.Void>) -> Pointer<cpp.Void>;
 typedef GLFW_Errorfun = (error_code:Int32, description:ConstCharStar) -> Void;
 typedef GLFW_Windowposfun = (window:GLFW_Window, xPos:Int32, yPos:Int32) -> Void;
@@ -191,13 +191,13 @@ private class GLFW_MonitorHandler {
 private class GLFW_WindowPosHandler {
 	static var listeners = new Map<String, GLFW_Windowposfun>();
 
-	public static function nativeCallback(win:Star<Native_GLFW_Window>, x:Int32, y:Int32):Void {
+	public static function nativeCallback(win:Star<Raw_GLFW_Window>, x:Int32, y:Int32):Void {
 		var ptr = win + "";
 		if (listeners.exists(ptr))
 			listeners[ptr](Pointer.fromStar(win), x, y);
 	}
 
-	public static function setCallback(win:Star<Native_GLFW_Window>, cb:GLFW_Windowposfun):Void {
+	public static function setCallback(win:Star<Raw_GLFW_Window>, cb:GLFW_Windowposfun):Void {
 		listeners[win + ""] = cb;
 	}
 }
@@ -206,13 +206,13 @@ private class GLFW_WindowPosHandler {
 private class GLFW_WindowSizeHandler {
 	static var listeners = new Map<String, GLFW_Windowsizefun>();
 
-	public static function nativeCallback(win:Star<Native_GLFW_Window>, w:Int32, h:Int32):Void {
+	public static function nativeCallback(win:Star<Raw_GLFW_Window>, w:Int32, h:Int32):Void {
 		var ptr = win + "";
 		if (listeners.exists(ptr))
 			listeners[ptr](Pointer.fromStar(win), w, h);
 	}
 
-	public static function setCallback(win:Star<Native_GLFW_Window>, cb:GLFW_Windowsizefun):Void {
+	public static function setCallback(win:Star<Raw_GLFW_Window>, cb:GLFW_Windowsizefun):Void {
 		listeners[win + ""] = cb;
 	}
 }
@@ -221,13 +221,13 @@ private class GLFW_WindowSizeHandler {
 private class GLFW_WindowCloseHandler {
 	static var listeners = new Map<String, GLFW_Windowclosefun>();
 
-	public static function nativeCallback(win:Star<Native_GLFW_Window>):Void {
+	public static function nativeCallback(win:Star<Raw_GLFW_Window>):Void {
 		var ptr = win + "";
 		if (listeners.exists(ptr))
 			listeners[ptr](Pointer.fromStar(win));
 	}
 
-	public static function setCallback(win:Star<Native_GLFW_Window>, cb:GLFW_Windowclosefun):Void {
+	public static function setCallback(win:Star<Raw_GLFW_Window>, cb:GLFW_Windowclosefun):Void {
 		listeners[win + ""] = cb;
 	}
 }
@@ -236,13 +236,13 @@ private class GLFW_WindowCloseHandler {
 private class GLFW_WindowRefreshHandler {
 	static var listeners = new Map<String, GLFW_Windowrefreshfun>();
 
-	public static function nativeCallback(win:Star<Native_GLFW_Window>):Void {
+	public static function nativeCallback(win:Star<Raw_GLFW_Window>):Void {
 		var ptr = win + "";
 		if (listeners.exists(ptr))
 			listeners[ptr](Pointer.fromStar(win));
 	}
 
-	public static function setCallback(win:Star<Native_GLFW_Window>, cb:GLFW_Windowrefreshfun):Void {
+	public static function setCallback(win:Star<Raw_GLFW_Window>, cb:GLFW_Windowrefreshfun):Void {
 		listeners[win + ""] = cb;
 	}
 }
@@ -251,13 +251,13 @@ private class GLFW_WindowRefreshHandler {
 private class GLFW_WindowFocusHandler {
 	static var listeners = new Map<String, GLFW_Windowfocusfun>();
 
-	public static function nativeCallback(win:Star<Native_GLFW_Window>, focused:Int32):Void {
+	public static function nativeCallback(win:Star<Raw_GLFW_Window>, focused:Int32):Void {
 		var ptr = win + "";
 		if (listeners.exists(ptr))
 			listeners[ptr](Pointer.fromStar(win), focused);
 	}
 
-	public static function setCallback(win:Star<Native_GLFW_Window>, cb:GLFW_Windowfocusfun):Void {
+	public static function setCallback(win:Star<Raw_GLFW_Window>, cb:GLFW_Windowfocusfun):Void {
 		listeners[win + ""] = cb;
 	}
 }
@@ -266,13 +266,13 @@ private class GLFW_WindowFocusHandler {
 private class GLFW_WindowIconifyHandler {
 	static var listeners = new Map<String, GLFW_Windowiconifyfun>();
 
-	public static function nativeCallback(win:Star<Native_GLFW_Window>, iconified:Int32):Void {
+	public static function nativeCallback(win:Star<Raw_GLFW_Window>, iconified:Int32):Void {
 		var ptr = win + "";
 		if (listeners.exists(ptr))
 			listeners[ptr](Pointer.fromStar(win), iconified);
 	}
 
-	public static function setCallback(win:Star<Native_GLFW_Window>, cb:GLFW_Windowiconifyfun):Void {
+	public static function setCallback(win:Star<Raw_GLFW_Window>, cb:GLFW_Windowiconifyfun):Void {
 		listeners[win + ""] = cb;
 	}
 }
@@ -281,13 +281,13 @@ private class GLFW_WindowIconifyHandler {
 private class GLFW_WindowMaximizeHandler {
 	static var listeners = new Map<String, GLFW_Windowmaximizefun>();
 
-	public static function nativeCallback(win:Star<Native_GLFW_Window>, maximized:Int32):Void {
+	public static function nativeCallback(win:Star<Raw_GLFW_Window>, maximized:Int32):Void {
 		var ptr = win + "";
 		if (listeners.exists(ptr))
 			listeners[ptr](Pointer.fromStar(win), maximized);
 	}
 
-	public static function setCallback(win:Star<Native_GLFW_Window>, cb:GLFW_Windowmaximizefun):Void {
+	public static function setCallback(win:Star<Raw_GLFW_Window>, cb:GLFW_Windowmaximizefun):Void {
 		listeners[win + ""] = cb;
 	}
 }
@@ -296,13 +296,13 @@ private class GLFW_WindowMaximizeHandler {
 private class GLFW_FramebufferSizeHandler {
 	static var listeners = new Map<String, GLFW_Framebuffersizefun>();
 
-	public static function nativeCallback(win:Star<Native_GLFW_Window>, w:Int32, h:Int32):Void {
+	public static function nativeCallback(win:Star<Raw_GLFW_Window>, w:Int32, h:Int32):Void {
 		var ptr = win + "";
 		if (listeners.exists(ptr))
 			listeners[ptr](Pointer.fromStar(win), w, h);
 	}
 
-	public static function setCallback(win:Star<Native_GLFW_Window>, cb:GLFW_Framebuffersizefun):Void {
+	public static function setCallback(win:Star<Raw_GLFW_Window>, cb:GLFW_Framebuffersizefun):Void {
 		listeners[win + ""] = cb;
 	}
 }
@@ -311,13 +311,13 @@ private class GLFW_FramebufferSizeHandler {
 private class GLFW_WindowContentScaleHandler {
 	static var listeners = new Map<String, GLFW_Windowcontentscalefun>();
 
-	public static function nativeCallback(win:Star<Native_GLFW_Window>, x:Float32, y:Float32):Void {
+	public static function nativeCallback(win:Star<Raw_GLFW_Window>, x:Float32, y:Float32):Void {
 		var ptr = win + "";
 		if (listeners.exists(ptr))
 			listeners[ptr](Pointer.fromStar(win), x, y);
 	}
 
-	public static function setCallback(win:Star<Native_GLFW_Window>, cb:GLFW_Windowcontentscalefun):Void {
+	public static function setCallback(win:Star<Raw_GLFW_Window>, cb:GLFW_Windowcontentscalefun):Void {
 		listeners[win + ""] = cb;
 	}
 }
@@ -326,13 +326,13 @@ private class GLFW_WindowContentScaleHandler {
 private class GLFW_KeyHandler {
 	static var listeners = new Map<String, GLFW_Keyfun>();
 
-	static public function nativeCallback(win:Star<Native_GLFW_Window>, key:Int32, scancode:Int32, action:Int32, mods:Int32):Void {
+	static public function nativeCallback(win:Star<Raw_GLFW_Window>, key:Int32, scancode:Int32, action:Int32, mods:Int32):Void {
 		var ptr = win + "";
 		if (listeners.exists(ptr))
 			listeners[ptr](Pointer.fromStar(win), key, scancode, action, mods);
 	}
 
-	public static function setCallback(win:Star<Native_GLFW_Window>, cb:GLFW_Keyfun):Void {
+	public static function setCallback(win:Star<Raw_GLFW_Window>, cb:GLFW_Keyfun):Void {
 		listeners[win + ""] = cb;
 	}
 }
@@ -341,13 +341,13 @@ private class GLFW_KeyHandler {
 private class GLFW_CharHandler {
 	static var listeners = new Map<String, GLFW_Charfun>();
 
-	static public function nativeCallback(win:Star<Native_GLFW_Window>, codepoint:UInt32):Void {
+	static public function nativeCallback(win:Star<Raw_GLFW_Window>, codepoint:UInt32):Void {
 		var ptr = win + "";
 		if (listeners.exists(ptr))
 			listeners[ptr](Pointer.fromStar(win), codepoint);
 	}
 
-	public static function setCallback(win:Star<Native_GLFW_Window>, cb:GLFW_Charfun):Void {
+	public static function setCallback(win:Star<Raw_GLFW_Window>, cb:GLFW_Charfun):Void {
 		listeners[win + ""] = cb;
 	}
 }
@@ -356,13 +356,13 @@ private class GLFW_CharHandler {
 private class GLFW_CharModsHandler {
 	static var listeners = new Map<String, GLFW_Charmodsfun>();
 
-	static public function nativeCallback(win:Star<Native_GLFW_Window>, codepoint:UInt32, mods:Int32):Void {
+	static public function nativeCallback(win:Star<Raw_GLFW_Window>, codepoint:UInt32, mods:Int32):Void {
 		var ptr = win + "";
 		if (listeners.exists(ptr))
 			listeners[ptr](Pointer.fromStar(win), codepoint, mods);
 	}
 
-	public static function setCallback(win:Star<Native_GLFW_Window>, cb:GLFW_Charmodsfun):Void {
+	public static function setCallback(win:Star<Raw_GLFW_Window>, cb:GLFW_Charmodsfun):Void {
 		listeners[win + ""] = cb;
 	}
 }
@@ -371,13 +371,13 @@ private class GLFW_CharModsHandler {
 private class GLFW_MouseButtonHandler {
 	static var listeners = new Map<String, GLFW_Mousebuttonfun>();
 
-	static public function nativeCallback(win:Star<Native_GLFW_Window>, button:Int32, action:Int32, mods:Int32):Void {
+	static public function nativeCallback(win:Star<Raw_GLFW_Window>, button:Int32, action:Int32, mods:Int32):Void {
 		var ptr = win + "";
 		if (listeners.exists(ptr))
 			listeners[ptr](Pointer.fromStar(win), button, action, mods);
 	}
 
-	public static function setCallback(win:Star<Native_GLFW_Window>, cb:GLFW_Mousebuttonfun):Void {
+	public static function setCallback(win:Star<Raw_GLFW_Window>, cb:GLFW_Mousebuttonfun):Void {
 		listeners[win + ""] = cb;
 	}
 }
@@ -386,13 +386,13 @@ private class GLFW_MouseButtonHandler {
 private class GLFW_CursorPosHandler {
 	static var listeners = new Map<String, GLFW_Cursorposfun>();
 
-	static public function nativeCallback(win:Star<Native_GLFW_Window>, x:Float64, y:Float64):Void {
+	static public function nativeCallback(win:Star<Raw_GLFW_Window>, x:Float64, y:Float64):Void {
 		var ptr = win + "";
 		if (listeners.exists(ptr))
 			listeners[ptr](Pointer.fromStar(win), x, y);
 	}
 
-	public static function setCallback(win:Star<Native_GLFW_Window>, cb:GLFW_Cursorposfun):Void {
+	public static function setCallback(win:Star<Raw_GLFW_Window>, cb:GLFW_Cursorposfun):Void {
 		listeners[win + ""] = cb;
 	}
 }
@@ -401,13 +401,13 @@ private class GLFW_CursorPosHandler {
 private class GLFW_CursorEnterHandler {
 	static var listeners = new Map<String, GLFW_Cursorenterfun>();
 
-	static public function nativeCallback(win:Star<Native_GLFW_Window>, entered:Int32):Void {
+	static public function nativeCallback(win:Star<Raw_GLFW_Window>, entered:Int32):Void {
 		var ptr = win + "";
 		if (listeners.exists(ptr))
 			listeners[ptr](Pointer.fromStar(win), entered);
 	}
 
-	public static function setCallback(win:Star<Native_GLFW_Window>, cb:GLFW_Cursorenterfun):Void {
+	public static function setCallback(win:Star<Raw_GLFW_Window>, cb:GLFW_Cursorenterfun):Void {
 		listeners[win + ""] = cb;
 	}
 }
@@ -416,13 +416,13 @@ private class GLFW_CursorEnterHandler {
 private class GLFW_ScrollHandler {
 	static var listeners = new Map<String, GLFW_Scrollfun>();
 
-	static public function nativeCallback(win:Star<Native_GLFW_Window>, x:Float64, y:Float64):Void {
+	static public function nativeCallback(win:Star<Raw_GLFW_Window>, x:Float64, y:Float64):Void {
 		var ptr = win + "";
 		if (listeners.exists(ptr))
 			listeners[ptr](Pointer.fromStar(win), x, y);
 	}
 
-	public static function setCallback(win:Star<Native_GLFW_Window>, cb:GLFW_Scrollfun):Void {
+	public static function setCallback(win:Star<Raw_GLFW_Window>, cb:GLFW_Scrollfun):Void {
 		listeners[win + ""] = cb;
 	}
 }
@@ -431,13 +431,13 @@ private class GLFW_ScrollHandler {
 private class GLFW_DropHandler {
 	static var listeners = new Map<String, GLFW_Dropfun>();
 
-	static public function nativeCallback(win:Star<Native_GLFW_Window>, count:Int32, paths:ConstCharStar):Void {
+	static public function nativeCallback(win:Star<Raw_GLFW_Window>, count:Int32, paths:ConstCharStar):Void {
 		var ptr = win + "";
 		if (listeners.exists(ptr))
 			listeners[ptr](Pointer.fromStar(win), count, paths);
 	}
 
-	public static function setCallback(win:Star<Native_GLFW_Window>, cb:GLFW_Dropfun):Void {
+	public static function setCallback(win:Star<Raw_GLFW_Window>, cb:GLFW_Dropfun):Void {
 		listeners[win + ""] = cb;
 	}
 }
@@ -735,7 +735,7 @@ extern class GLFW {
 	public static inline var ANY_RELEASE_BEHAVIOR:Int32 = 0;
 	public static inline var RELEASE_BEHAVIOR_FLUSH:Int32 = 0x00035001;
 	public static inline var RELEASE_BEHAVIOR_NONE:Int32 = 0x00035002;
-	public static inline var NATIVE_CONTEXT_API:Int32 = 0x00036001;
+	public static inline var Raw_CONTEXT_API:Int32 = 0x00036001;
 	public static inline var EGL_CONTEXT_API:Int32 = 0x00036002;
 	public static inline var OSMESA_CONTEXT_API:Int32 = 0x00036003;
 	public static inline var ANGLE_PLATFORM_TYPE_NONE:Int32 = 0x00037001;

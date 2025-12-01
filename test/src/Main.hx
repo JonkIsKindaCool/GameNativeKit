@@ -1,3 +1,6 @@
+import bindings.sdl3.SDL_Rect;
+import bindings.sdl3.SDL_Rect.SDL_FRect;
+import bindings.sdl3.SDL_Rect.SDL_Point;
 import bindings.glad.Glad;
 import haxe.Int32;
 import bindings.glfw.GLFW;
